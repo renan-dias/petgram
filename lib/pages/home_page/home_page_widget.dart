@@ -118,7 +118,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
               ),
             if (Theme.of(context).brightness == Brightness.dark)
               Image.asset(
-                'assets/images/logoSniff@2x.png',
+                'assets/images/logoPetgram.png',
                 width: 120.0,
                 height: 50.0,
                 fit: BoxFit.fitWidth,
