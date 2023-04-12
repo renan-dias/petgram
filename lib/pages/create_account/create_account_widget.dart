@@ -43,9 +43,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
-      body: AnimatedContainer(
-        duration: Duration(milliseconds: 100),
-        curve: Curves.easeIn,
+      body: Container(
         width: double.infinity,
         height: double.infinity,
         decoration: BoxDecoration(
@@ -382,15 +380,18 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                           EdgeInsetsDirectional.fromSTEB(2.0, 0.0, 0.0, 12.0),
                       child: FFButtonWidget(
                         onPressed: () async {
-                          GoRouter.of(context).prepareAuthEvent();
-                          final user = await signInWithGoogle(context);
-                          if (user == null) {
-                            return;
-                          }
-
-                          context.goNamedAuth('homePage', mounted);
+                          context.pushNamed(
+                            'createAccount',
+                            extra: <String, dynamic>{
+                              kTransitionInfoKey: TransitionInfo(
+                                hasTransition: true,
+                                transitionType: PageTransitionType.fade,
+                                duration: Duration(milliseconds: 200),
+                              ),
+                            },
+                          );
                         },
-                        text: 'ou crie sua conta com Google',
+                        text: 'Continuar como convidado',
                         options: FFButtonOptions(
                           width: 200.0,
                           height: 40.0,
