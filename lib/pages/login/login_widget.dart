@@ -417,14 +417,14 @@ class _LoginWidgetState extends State<LoginWidget> {
                       child: FFButtonWidget(
                         onPressed: () async {
                           GoRouter.of(context).prepareAuthEvent();
-                          final user = await signInAnonymously(context);
+                          final user = await signInWithGoogle(context);
                           if (user == null) {
                             return;
                           }
 
                           context.goNamedAuth('homePage', mounted);
                         },
-                        text: 'Navegar como visitante',
+                        text: 'Logar com Google',
                         options: FFButtonOptions(
                           width: 200.0,
                           height: 40.0,
