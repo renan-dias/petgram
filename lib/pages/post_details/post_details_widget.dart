@@ -1,4 +1,4 @@
-import '/auth/auth_util.dart';
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/components/delete_post/delete_post_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
@@ -53,6 +53,8 @@ class _PostDetailsWidgetState extends State<PostDetailsWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return StreamBuilder<UserPostsRecord>(
       stream: UserPostsRecord.getDocument(widget.postReference!),
       builder: (context, snapshot) {
@@ -69,736 +71,779 @@ class _PostDetailsWidgetState extends State<PostDetailsWidget> {
           );
         }
         final postDetailsUserPostsRecord = snapshot.data!;
-        return Scaffold(
-          key: scaffoldKey,
-          backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
-          body: SafeArea(
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Stack(
+        return Title(
+            title: 'postDetails',
+            color: FlutterFlowTheme.of(context).primary,
+            child: Scaffold(
+              key: scaffoldKey,
+              backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+              body: SafeArea(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
                           children: [
-                            Container(
-                              width: MediaQuery.of(context).size.width * 1.0,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(0.0),
-                                child: CachedNetworkImage(
-                                  imageUrl: valueOrDefault<String>(
-                                    postDetailsUserPostsRecord.postPhoto,
-                                    'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/sample-app-social-app-tx2kqp/assets/ot903vcfouv7/oscar-sutton-yihlaRCCvd4-unsplash.jpg',
+                            Stack(
+                              children: [
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 1.0,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(8.0),
                                   ),
-                                  width: 100.0,
-                                  height: 430.0,
-                                  fit: BoxFit.cover,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(0.0),
+                                    child: CachedNetworkImage(
+                                      imageUrl: valueOrDefault<String>(
+                                        postDetailsUserPostsRecord.postPhoto,
+                                        'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/sample-app-social-app-tx2kqp/assets/ot903vcfouv7/oscar-sutton-yihlaRCCvd4-unsplash.jpg',
+                                      ),
+                                      width: 100.0,
+                                      height: 430.0,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      16.0, 12.0, 16.0, 0.0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Card(
+                                        clipBehavior:
+                                            Clip.antiAliasWithSaveLayer,
+                                        color: Color(0x3F000000),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(40.0),
+                                        ),
+                                        child: FlutterFlowIconButton(
+                                          borderColor: Colors.transparent,
+                                          borderRadius: 30.0,
+                                          buttonSize: 46.0,
+                                          icon: Icon(
+                                            Icons.arrow_back_rounded,
+                                            color: FlutterFlowTheme.of(context)
+                                                .tertiary,
+                                            size: 24.0,
+                                          ),
+                                          onPressed: () async {
+                                            context.pop();
+                                          },
+                                        ),
+                                      ),
+                                      if (postDetailsUserPostsRecord
+                                              .postOwner ??
+                                          true)
+                                        FlutterFlowIconButton(
+                                          borderColor: Colors.transparent,
+                                          borderRadius: 30.0,
+                                          borderWidth: 1.0,
+                                          buttonSize: 44.0,
+                                          fillColor: Color(0x41000000),
+                                          icon: Icon(
+                                            Icons.more_vert_sharp,
+                                            color: FlutterFlowTheme.of(context)
+                                                .tertiary,
+                                            size: 24.0,
+                                          ),
+                                          onPressed: () async {
+                                            await showModalBottomSheet(
+                                              isScrollControlled: true,
+                                              backgroundColor:
+                                                  Color(0x00000000),
+                                              barrierColor: Color(0x00000000),
+                                              context: context,
+                                              builder: (bottomSheetContext) {
+                                                return Padding(
+                                                  padding: MediaQuery.of(
+                                                          bottomSheetContext)
+                                                      .viewInsets,
+                                                  child: Container(
+                                                    height: 250.0,
+                                                    child: DeletePostWidget(
+                                                      postParameters:
+                                                          postDetailsUserPostsRecord,
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                            ).then((value) => setState(() {}));
+                                          },
+                                        ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
                             Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
-                                  16.0, 12.0, 16.0, 0.0),
+                                  16.0, 8.0, 16.0, 0.0),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Card(
                                     clipBehavior: Clip.antiAliasWithSaveLayer,
-                                    color: Color(0x3F000000),
+                                    color: Color(0xFF4B39EF),
                                     shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(40.0),
+                                      borderRadius: BorderRadius.circular(20.0),
                                     ),
-                                    child: FlutterFlowIconButton(
-                                      borderColor: Colors.transparent,
-                                      borderRadius: 30.0,
-                                      buttonSize: 46.0,
-                                      icon: Icon(
-                                        Icons.arrow_back_rounded,
-                                        color: FlutterFlowTheme.of(context)
-                                            .tertiary,
-                                        size: 24.0,
-                                      ),
-                                      onPressed: () async {
-                                        context.pop();
-                                      },
-                                    ),
-                                  ),
-                                  if (postDetailsUserPostsRecord.postOwner ??
-                                      true)
-                                    FlutterFlowIconButton(
-                                      borderColor: Colors.transparent,
-                                      borderRadius: 30.0,
-                                      borderWidth: 1.0,
-                                      buttonSize: 44.0,
-                                      fillColor: Color(0x41000000),
-                                      icon: Icon(
-                                        Icons.more_vert_sharp,
-                                        color: FlutterFlowTheme.of(context)
-                                            .tertiary,
-                                        size: 24.0,
-                                      ),
-                                      onPressed: () async {
-                                        await showModalBottomSheet(
-                                          isScrollControlled: true,
-                                          backgroundColor: Color(0x00000000),
-                                          barrierColor: Color(0x00000000),
-                                          context: context,
-                                          builder: (bottomSheetContext) {
-                                            return Padding(
-                                              padding: MediaQuery.of(
-                                                      bottomSheetContext)
-                                                  .viewInsets,
-                                              child: Container(
-                                                height: 250.0,
-                                                child: DeletePostWidget(
-                                                  postParameters:
-                                                      postDetailsUserPostsRecord,
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        ).then((value) => setState(() {}));
-                                      },
-                                    ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              16.0, 8.0, 16.0, 0.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Card(
-                                clipBehavior: Clip.antiAliasWithSaveLayer,
-                                color: Color(0xFF4B39EF),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      1.0, 1.0, 1.0, 1.0),
-                                  child: Container(
-                                    width: 40.0,
-                                    height: 40.0,
-                                    clipBehavior: Clip.antiAlias,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Image.network(
-                                      widget.userRecord!.photoUrl!,
-                                      fit: BoxFit.fitWidth,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Padding(
+                                    child: Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          12.0, 0.0, 0.0, 0.0),
-                                      child: Text(
-                                        widget.userRecord!.userName!,
-                                        style: FlutterFlowTheme.of(context)
-                                            .titleMedium,
+                                          1.0, 1.0, 1.0, 1.0),
+                                      child: Container(
+                                        width: 40.0,
+                                        height: 40.0,
+                                        clipBehavior: Clip.antiAlias,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Image.network(
+                                          widget.userRecord!.photoUrl!,
+                                          fit: BoxFit.fitWidth,
+                                        ),
                                       ),
                                     ),
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          12.0, 0.0, 0.0, 0.0),
-                                      child: Text(
-                                        dateTimeFormat(
-                                            'relative',
-                                            postDetailsUserPostsRecord
-                                                .timePosted!),
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              16.0, 4.0, 16.0, 8.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  postDetailsUserPostsRecord.postDescription!
-                                      .maybeHandleOverflow(
-                                    maxChars: 200,
-                                    replacement: '…',
                                   ),
-                                  style:
-                                      FlutterFlowTheme.of(context).bodyMedium,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              16.0, 4.0, 16.0, 8.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              RichText(
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: 'Foto tirada em: ',
-                                      style: TextStyle(),
-                                    ),
-                                    TextSpan(
-                                      text: postDetailsUserPostsRecord
-                                          .postLocale!
-                                          .toString(),
-                                      style: TextStyle(),
-                                    )
-                                  ],
-                                  style:
-                                      FlutterFlowTheme.of(context).bodyMedium,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              16.0, 4.0, 16.0, 6.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 0.0, 16.0, 0.0),
+                                  Expanded(
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
-                                        ToggleIcon(
-                                          onPressed: () async {
-                                            final likesElement =
-                                                currentUserReference;
-                                            final likesUpdate =
-                                                postDetailsUserPostsRecord
-                                                        .likes!
-                                                        .toList()
-                                                        .contains(likesElement)
-                                                    ? FieldValue.arrayRemove(
-                                                        [likesElement])
-                                                    : FieldValue.arrayUnion(
-                                                        [likesElement]);
-                                            final userPostsUpdateData = {
-                                              'likes': likesUpdate,
-                                            };
-                                            await postDetailsUserPostsRecord
-                                                .reference
-                                                .update(userPostsUpdateData);
-                                          },
-                                          value: postDetailsUserPostsRecord
-                                              .likes!
-                                              .toList()
-                                              .contains(currentUserReference),
-                                          onIcon: Icon(
-                                            Icons.pets_rounded,
-                                            color: FlutterFlowTheme.of(context)
-                                                .primary,
-                                            size: 25.0,
-                                          ),
-                                          offIcon: Icon(
-                                            Icons.pets_outlined,
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryText,
-                                            size: 25.0,
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  12.0, 0.0, 0.0, 0.0),
+                                          child: Text(
+                                            widget.userRecord!.userName!,
+                                            style: FlutterFlowTheme.of(context)
+                                                .titleMedium,
                                           ),
                                         ),
                                         Padding(
                                           padding:
                                               EdgeInsetsDirectional.fromSTEB(
-                                                  4.0, 0.0, 0.0, 0.0),
+                                                  12.0, 0.0, 0.0, 0.0),
                                           child: Text(
-                                            functions
-                                                .likes(
-                                                    postDetailsUserPostsRecord)
-                                                .toString(),
+                                            dateTimeFormat(
+                                                'relative',
+                                                postDetailsUserPostsRecord
+                                                    .timePosted!),
                                             style: FlutterFlowTheme.of(context)
-                                                .bodySmall,
+                                                .bodyMedium,
                                           ),
                                         ),
                                       ],
                                     ),
                                   ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  16.0, 4.0, 16.0, 8.0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      postDetailsUserPostsRecord
+                                          .postDescription!
+                                          .maybeHandleOverflow(
+                                        maxChars: 200,
+                                        replacement: '…',
+                                      ),
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  16.0, 4.0, 16.0, 8.0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: 'Foto tirada em: ',
+                                          style: TextStyle(),
+                                        ),
+                                        TextSpan(
+                                          text: postDetailsUserPostsRecord
+                                              .postLocale!
+                                              .toString(),
+                                          style: TextStyle(),
+                                        )
+                                      ],
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  16.0, 4.0, 16.0, 6.0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 0.0, 16.0, 0.0),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            ToggleIcon(
+                                              onPressed: () async {
+                                                final likesElement =
+                                                    currentUserReference;
+                                                final likesUpdate =
+                                                    postDetailsUserPostsRecord
+                                                            .likes!
+                                                            .toList()
+                                                            .contains(
+                                                                likesElement)
+                                                        ? FieldValue
+                                                            .arrayRemove(
+                                                                [likesElement])
+                                                        : FieldValue.arrayUnion(
+                                                            [likesElement]);
+                                                final userPostsUpdateData = {
+                                                  'likes': likesUpdate,
+                                                };
+                                                await postDetailsUserPostsRecord
+                                                    .reference
+                                                    .update(
+                                                        userPostsUpdateData);
+                                              },
+                                              value: postDetailsUserPostsRecord
+                                                  .likes!
+                                                  .toList()
+                                                  .contains(
+                                                      currentUserReference),
+                                              onIcon: Icon(
+                                                Icons.pets_rounded,
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primary,
+                                                size: 25.0,
+                                              ),
+                                              offIcon: Icon(
+                                                Icons.pets_outlined,
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondaryText,
+                                                size: 25.0,
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(4.0, 0.0, 0.0, 0.0),
+                                              child: Text(
+                                                functions
+                                                    .likes(
+                                                        postDetailsUserPostsRecord)
+                                                    .toString(),
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodySmall,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Icon(
+                                            Icons.mode_comment_outlined,
+                                            color: FlutterFlowTheme.of(context)
+                                                .secondaryText,
+                                            size: 24.0,
+                                          ),
+                                          Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    4.0, 0.0, 0.0, 0.0),
+                                            child: Text(
+                                              postDetailsUserPostsRecord
+                                                  .numComments!
+                                                  .toString(),
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodySmall,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                   Row(
                                     mainAxisSize: MainAxisSize.max,
                                     children: [
                                       Icon(
-                                        Icons.mode_comment_outlined,
+                                        Icons.ios_share,
                                         color: FlutterFlowTheme.of(context)
                                             .secondaryText,
                                         size: 24.0,
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            4.0, 0.0, 0.0, 0.0),
-                                        child: Text(
-                                          postDetailsUserPostsRecord
-                                              .numComments!
-                                              .toString(),
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodySmall,
-                                        ),
                                       ),
                                     ],
                                   ),
                                 ],
                               ),
-                              Row(
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 1.0,
+                              decoration: BoxDecoration(
+                                color: FlutterFlowTheme.of(context)
+                                    .secondaryBackground,
+                              ),
+                              child: Column(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
-                                  Icon(
-                                    Icons.ios_share,
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryText,
-                                    size: 24.0,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width * 1.0,
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
-                          ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    16.0, 12.0, 16.0, 12.0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Text(
-                                      'Comments',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodySmall
-                                          .override(
-                                            fontFamily:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodySmallFamily,
-                                            fontSize: 12.0,
-                                            useGoogleFonts: GoogleFonts.asMap()
-                                                .containsKey(
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        16.0, 12.0, 16.0, 12.0),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Text(
+                                          'Comments',
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodySmall
+                                              .override(
+                                                fontFamily:
                                                     FlutterFlowTheme.of(context)
-                                                        .bodySmallFamily),
-                                          ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              StreamBuilder<List<PostCommentsRecord>>(
-                                stream: queryPostCommentsRecord(
-                                  queryBuilder: (postCommentsRecord) =>
-                                      postCommentsRecord
-                                          .where('post',
-                                              isEqualTo:
-                                                  postDetailsUserPostsRecord
-                                                      .reference)
-                                          .orderBy('timePosted',
-                                              descending: true),
-                                ),
-                                builder: (context, snapshot) {
-                                  // Customize what your widget looks like when it's loading.
-                                  if (!snapshot.hasData) {
-                                    return Center(
-                                      child: SizedBox(
-                                        width: 50.0,
-                                        height: 50.0,
-                                        child: CircularProgressIndicator(
-                                          color: FlutterFlowTheme.of(context)
-                                              .primary,
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                  List<PostCommentsRecord>
-                                      commentListPostCommentsRecordList =
-                                      snapshot.data!;
-                                  if (commentListPostCommentsRecordList
-                                      .isEmpty) {
-                                    return Center(
-                                      child: Image.asset(
-                                        'assets/images/commentsEmpty@2x.png',
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.7,
-                                        height: 270.0,
-                                      ),
-                                    );
-                                  }
-                                  return Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: List.generate(
-                                        commentListPostCommentsRecordList
-                                            .length, (commentListIndex) {
-                                      final commentListPostCommentsRecord =
-                                          commentListPostCommentsRecordList[
-                                              commentListIndex];
-                                      return Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0.0, 0.0, 0.0, 2.0),
-                                        child: StreamBuilder<UsersRecord>(
-                                          stream: UsersRecord.getDocument(
-                                              commentListPostCommentsRecord
-                                                  .user!),
-                                          builder: (context, snapshot) {
-                                            // Customize what your widget looks like when it's loading.
-                                            if (!snapshot.hasData) {
-                                              return Center(
-                                                child: SizedBox(
-                                                  width: 50.0,
-                                                  height: 50.0,
-                                                  child:
-                                                      CircularProgressIndicator(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primary,
-                                                  ),
-                                                ),
-                                              );
-                                            }
-                                            final commentUsersRecord =
-                                                snapshot.data!;
-                                            return Container(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  1.0,
-                                              decoration: BoxDecoration(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .secondaryBackground,
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryBackground,
-                                                    offset: Offset(0.0, 1.0),
-                                                  )
-                                                ],
-                                                borderRadius:
-                                                    BorderRadius.circular(0.0),
+                                                        .bodySmallFamily,
+                                                fontSize: 12.0,
+                                                useGoogleFonts: GoogleFonts
+                                                        .asMap()
+                                                    .containsKey(
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodySmallFamily),
                                               ),
-                                              child: Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        8.0, 12.0, 8.0, 12.0),
-                                                child: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Container(
-                                                      width: 40.0,
-                                                      height: 40.0,
-                                                      clipBehavior:
-                                                          Clip.antiAlias,
-                                                      decoration: BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                      ),
-                                                      child: Image.network(
-                                                        valueOrDefault<String>(
-                                                          commentUsersRecord
-                                                              .photoUrl,
-                                                          'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/sample-app-social-app-tx2kqp/assets/pbp73skqv1ru/shayna-douglas-lgILhKUELg4-unsplash.jpg',
-                                                        ),
-                                                        fit: BoxFit.cover,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  StreamBuilder<List<PostCommentsRecord>>(
+                                    stream: queryPostCommentsRecord(
+                                      queryBuilder: (postCommentsRecord) =>
+                                          postCommentsRecord
+                                              .where('post',
+                                                  isEqualTo:
+                                                      postDetailsUserPostsRecord
+                                                          .reference)
+                                              .orderBy('timePosted',
+                                                  descending: true),
+                                    ),
+                                    builder: (context, snapshot) {
+                                      // Customize what your widget looks like when it's loading.
+                                      if (!snapshot.hasData) {
+                                        return Center(
+                                          child: SizedBox(
+                                            width: 50.0,
+                                            height: 50.0,
+                                            child: CircularProgressIndicator(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                      List<PostCommentsRecord>
+                                          commentListPostCommentsRecordList =
+                                          snapshot.data!;
+                                      if (commentListPostCommentsRecordList
+                                          .isEmpty) {
+                                        return Center(
+                                          child: Image.asset(
+                                            'assets/images/commentsEmpty@2x.png',
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.7,
+                                            height: 270.0,
+                                          ),
+                                        );
+                                      }
+                                      return Column(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: List.generate(
+                                            commentListPostCommentsRecordList
+                                                .length, (commentListIndex) {
+                                          final commentListPostCommentsRecord =
+                                              commentListPostCommentsRecordList[
+                                                  commentListIndex];
+                                          return Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    0.0, 0.0, 0.0, 2.0),
+                                            child: StreamBuilder<UsersRecord>(
+                                              stream: UsersRecord.getDocument(
+                                                  commentListPostCommentsRecord
+                                                      .user!),
+                                              builder: (context, snapshot) {
+                                                // Customize what your widget looks like when it's loading.
+                                                if (!snapshot.hasData) {
+                                                  return Center(
+                                                    child: SizedBox(
+                                                      width: 50.0,
+                                                      height: 50.0,
+                                                      child:
+                                                          CircularProgressIndicator(
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .primary,
                                                       ),
                                                     ),
-                                                    Expanded(
-                                                      child: Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    12.0,
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0.0),
-                                                        child: Column(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Text(
-                                                              valueOrDefault<
-                                                                  String>(
-                                                                commentUsersRecord
-                                                                    .displayName,
-                                                                'My Name Here',
-                                                              ),
-                                                              style: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .titleMedium,
+                                                  );
+                                                }
+                                                final commentUsersRecord =
+                                                    snapshot.data!;
+                                                return Container(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      1.0,
+                                                  decoration: BoxDecoration(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .secondaryBackground,
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .primaryBackground,
+                                                        offset:
+                                                            Offset(0.0, 1.0),
+                                                      )
+                                                    ],
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            0.0),
+                                                  ),
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(8.0, 12.0,
+                                                                8.0, 12.0),
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Container(
+                                                          width: 40.0,
+                                                          height: 40.0,
+                                                          clipBehavior:
+                                                              Clip.antiAlias,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            shape:
+                                                                BoxShape.circle,
+                                                          ),
+                                                          child: Image.network(
+                                                            valueOrDefault<
+                                                                String>(
+                                                              commentUsersRecord
+                                                                  .photoUrl,
+                                                              'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/sample-app-social-app-tx2kqp/assets/pbp73skqv1ru/shayna-douglas-lgILhKUELg4-unsplash.jpg',
                                                             ),
-                                                            Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
+                                                            fit: BoxFit.cover,
+                                                          ),
+                                                        ),
+                                                        Expanded(
+                                                          child: Padding(
+                                                            padding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        12.0,
+                                                                        0.0,
+                                                                        0.0,
+                                                                        0.0),
+                                                            child: Column(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .max,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Text(
+                                                                  valueOrDefault<
+                                                                      String>(
+                                                                    commentUsersRecord
+                                                                        .displayName,
+                                                                    'My Name Here',
+                                                                  ),
+                                                                  style: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .titleMedium,
+                                                                ),
+                                                                Padding(
+                                                                  padding: EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           0.0,
                                                                           4.0,
                                                                           0.0,
                                                                           0.0),
-                                                              child: Text(
-                                                                commentListPostCommentsRecord
-                                                                    .comment!,
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium,
-                                                              ),
-                                                            ),
-                                                            Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
+                                                                  child: Text(
+                                                                    commentListPostCommentsRecord
+                                                                        .comment!,
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium,
+                                                                  ),
+                                                                ),
+                                                                Padding(
+                                                                  padding: EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           0.0,
                                                                           4.0,
                                                                           0.0,
                                                                           0.0),
-                                                              child: Row(
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .max,
-                                                                children: [
-                                                                  Padding(
-                                                                    padding: EdgeInsetsDirectional
-                                                                        .fromSTEB(
+                                                                  child: Row(
+                                                                    mainAxisSize:
+                                                                        MainAxisSize
+                                                                            .max,
+                                                                    children: [
+                                                                      Padding(
+                                                                        padding: EdgeInsetsDirectional.fromSTEB(
                                                                             0.0,
                                                                             0.0,
                                                                             4.0,
                                                                             0.0),
-                                                                    child: Text(
-                                                                      'Postado em:',
-                                                                      style: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium,
-                                                                    ),
+                                                                        child:
+                                                                            Text(
+                                                                          'Postado em:',
+                                                                          style:
+                                                                              FlutterFlowTheme.of(context).bodyMedium,
+                                                                        ),
+                                                                      ),
+                                                                      Text(
+                                                                        dateTimeFormat(
+                                                                            'relative',
+                                                                            commentListPostCommentsRecord.timePosted!),
+                                                                        style: FlutterFlowTheme.of(context)
+                                                                            .bodySmall,
+                                                                      ),
+                                                                    ],
                                                                   ),
-                                                                  Text(
-                                                                    dateTimeFormat(
-                                                                        'relative',
-                                                                        commentListPostCommentsRecord
-                                                                            .timePosted!),
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodySmall,
-                                                                  ),
-                                                                ],
-                                                              ),
+                                                                ),
+                                                              ],
                                                             ),
-                                                          ],
+                                                          ),
                                                         ),
-                                                      ),
+                                                      ],
                                                     ),
-                                                  ],
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        ),
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          );
+                                        }),
                                       );
-                                    }),
-                                  );
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding:
-                      EdgeInsetsDirectional.fromSTEB(12.0, 12.0, 12.0, 12.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 12.0),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 1.0,
-                          decoration: BoxDecoration(
-                            color:
-                                FlutterFlowTheme.of(context).primaryBackground,
-                            boxShadow: [
-                              BoxShadow(
-                                blurRadius: 3.0,
-                                color: Color(0x3A000000),
-                                offset: Offset(0.0, 1.0),
-                              )
-                            ],
-                            borderRadius: BorderRadius.circular(40.0),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Expanded(
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      16.0, 4.0, 0.0, 4.0),
-                                  child: TextFormField(
-                                    controller: _model.textController,
-                                    obscureText: false,
-                                    decoration: InputDecoration(
-                                      hintText: 'Comente aqui...',
-                                      hintStyle: FlutterFlowTheme.of(context)
-                                          .bodySmall,
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Color(0x00000000),
-                                          width: 1.0,
-                                        ),
-                                        borderRadius: const BorderRadius.only(
-                                          topLeft: Radius.circular(4.0),
-                                          topRight: Radius.circular(4.0),
-                                        ),
-                                      ),
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Color(0x00000000),
-                                          width: 1.0,
-                                        ),
-                                        borderRadius: const BorderRadius.only(
-                                          topLeft: Radius.circular(4.0),
-                                          topRight: Radius.circular(4.0),
-                                        ),
-                                      ),
-                                      errorBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Color(0x00000000),
-                                          width: 1.0,
-                                        ),
-                                        borderRadius: const BorderRadius.only(
-                                          topLeft: Radius.circular(4.0),
-                                          topRight: Radius.circular(4.0),
-                                        ),
-                                      ),
-                                      focusedErrorBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Color(0x00000000),
-                                          width: 1.0,
-                                        ),
-                                        borderRadius: const BorderRadius.only(
-                                          topLeft: Radius.circular(4.0),
-                                          topRight: Radius.circular(4.0),
-                                        ),
-                                      ),
-                                    ),
-                                    style:
-                                        FlutterFlowTheme.of(context).bodyMedium,
-                                    validator: _model.textControllerValidator
-                                        .asValidator(context),
+                                    },
                                   ),
-                                ),
+                                ],
                               ),
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 0.0, 4.0, 0.0),
-                                child: FFButtonWidget(
-                                  onPressed: () async {
-                                    final postCommentsCreateData =
-                                        createPostCommentsRecordData(
-                                      timePosted: getCurrentTimestamp,
-                                      comment: _model.textController.text,
-                                      user: currentUserReference,
-                                      post:
-                                          postDetailsUserPostsRecord.reference,
-                                    );
-                                    await PostCommentsRecord.collection
-                                        .doc()
-                                        .set(postCommentsCreateData);
-
-                                    final userPostsUpdateData = {
-                                      'numComments': FieldValue.increment(1),
-                                    };
-                                    await postDetailsUserPostsRecord.reference
-                                        .update(userPostsUpdateData);
-                                  },
-                                  text: 'Postar',
-                                  options: FFButtonOptions(
-                                    width: 70.0,
-                                    height: 40.0,
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 0.0, 0.0, 0.0),
-                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 0.0, 0.0, 0.0),
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryBackground,
-                                    textStyle: FlutterFlowTheme.of(context)
-                                        .titleSmall
-                                        .override(
-                                          fontFamily:
-                                              FlutterFlowTheme.of(context)
-                                                  .titleSmallFamily,
-                                          color: FlutterFlowTheme.of(context)
-                                              .primary,
-                                          useGoogleFonts: GoogleFonts.asMap()
-                                              .containsKey(
-                                                  FlutterFlowTheme.of(context)
-                                                      .titleSmallFamily),
-                                        ),
-                                    elevation: 0.0,
-                                    borderSide: BorderSide(
-                                      color: Colors.transparent,
-                                      width: 1.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(12.0),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(
+                          12.0, 12.0, 12.0, 12.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                0.0, 0.0, 0.0, 12.0),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 1.0,
+                              decoration: BoxDecoration(
+                                color: FlutterFlowTheme.of(context)
+                                    .primaryBackground,
+                                boxShadow: [
+                                  BoxShadow(
+                                    blurRadius: 3.0,
+                                    color: Color(0x3A000000),
+                                    offset: Offset(0.0, 1.0),
+                                  )
+                                ],
+                                borderRadius: BorderRadius.circular(40.0),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Expanded(
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          16.0, 4.0, 0.0, 4.0),
+                                      child: TextFormField(
+                                        controller: _model.textController,
+                                        obscureText: false,
+                                        decoration: InputDecoration(
+                                          hintText: 'Comente aqui...',
+                                          hintStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodySmall,
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Color(0x00000000),
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                              topLeft: Radius.circular(4.0),
+                                              topRight: Radius.circular(4.0),
+                                            ),
+                                          ),
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Color(0x00000000),
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                              topLeft: Radius.circular(4.0),
+                                              topRight: Radius.circular(4.0),
+                                            ),
+                                          ),
+                                          errorBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Color(0x00000000),
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                              topLeft: Radius.circular(4.0),
+                                              topRight: Radius.circular(4.0),
+                                            ),
+                                          ),
+                                          focusedErrorBorder:
+                                              UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Color(0x00000000),
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                              topLeft: Radius.circular(4.0),
+                                              topRight: Radius.circular(4.0),
+                                            ),
+                                          ),
+                                        ),
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium,
+                                        validator: _model
+                                            .textControllerValidator
+                                            .asValidator(context),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 4.0, 0.0),
+                                    child: FFButtonWidget(
+                                      onPressed: () async {
+                                        final postCommentsCreateData =
+                                            createPostCommentsRecordData(
+                                          timePosted: getCurrentTimestamp,
+                                          comment: _model.textController.text,
+                                          user: currentUserReference,
+                                          post: postDetailsUserPostsRecord
+                                              .reference,
+                                        );
+                                        await PostCommentsRecord.collection
+                                            .doc()
+                                            .set(postCommentsCreateData);
+
+                                        final userPostsUpdateData = {
+                                          'numComments':
+                                              FieldValue.increment(1),
+                                        };
+                                        await postDetailsUserPostsRecord
+                                            .reference
+                                            .update(userPostsUpdateData);
+                                      },
+                                      text: 'Postar',
+                                      options: FFButtonOptions(
+                                        width: 70.0,
+                                        height: 40.0,
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 0.0, 0.0, 0.0),
+                                        iconPadding:
+                                            EdgeInsetsDirectional.fromSTEB(
+                                                0.0, 0.0, 0.0, 0.0),
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryBackground,
+                                        textStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .override(
+                                              fontFamily:
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleSmallFamily,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                              useGoogleFonts: GoogleFonts
+                                                      .asMap()
+                                                  .containsKey(
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .titleSmallFamily),
+                                            ),
+                                        elevation: 0.0,
+                                        borderSide: BorderSide(
+                                          color: Colors.transparent,
+                                          width: 1.0,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(12.0),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-        );
+              ),
+            ));
       },
     );
   }

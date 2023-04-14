@@ -39,6 +39,8 @@ class _CreateModalWidgetState extends State<CreateModalWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return Container(
       width: double.infinity,
       height: double.infinity,

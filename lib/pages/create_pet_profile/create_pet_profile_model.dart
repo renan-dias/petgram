@@ -1,4 +1,4 @@
-import '/auth/auth_util.dart';
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/backend/firebase_storage/storage.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
@@ -25,7 +25,7 @@ class CreatePetProfileModel extends FlutterFlowModel {
   String? Function(BuildContext, String?)? petNameControllerValidator;
   // State field(s) for petType widget.
   String? petTypeValue;
-  FormFieldController<String>? petTypeController;
+  FormFieldController<String>? petTypeValueController;
   // State field(s) for petBreed widget.
   TextEditingController? petBreedController;
   String? Function(BuildContext, String?)? petBreedControllerValidator;

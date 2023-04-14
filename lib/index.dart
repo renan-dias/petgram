@@ -32,3 +32,4 @@ export '/pages/add_chat_users/add_chat_users_widget.dart'
     show AddChatUsersWidget;
 export '/pages/create_group_chat/create_group_chat_widget.dart'
     show CreateGroupChatWidget;
+export '/privacy/privacy_widget.dart' show PrivacyWidget;

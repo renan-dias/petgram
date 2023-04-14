@@ -77,11 +77,13 @@ class _PushNotificationsHandlerState extends State<PushNotificationsHandler> {
 
   @override
   Widget build(BuildContext context) => _loading
-      ? Container(
-          color: Colors.transparent,
-          child: Image.asset(
-            'assets/images/Design_sem_nome.gif',
-            fit: BoxFit.cover,
+      ? Center(
+          child: SizedBox(
+            width: 50.0,
+            height: 50.0,
+            child: CircularProgressIndicator(
+              color: FlutterFlowTheme.of(context).primary,
+            ),
           ),
         )
       : widget.child;
@@ -162,6 +164,7 @@ final parametersBuilderMap =
         },
       ),
   'createGroupChat': ParameterData.none(),
+  'privacy': ParameterData.none(),
 };
 
 Map<String, dynamic> getInitialParameterData(Map<String, dynamic> data) {
