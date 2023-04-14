@@ -77,13 +77,11 @@ class _PushNotificationsHandlerState extends State<PushNotificationsHandler> {
 
   @override
   Widget build(BuildContext context) => _loading
-      ? Center(
-          child: SizedBox(
-            width: 50.0,
-            height: 50.0,
-            child: CircularProgressIndicator(
-              color: FlutterFlowTheme.of(context).primary,
-            ),
+      ? Container(
+          color: Colors.transparent,
+          child: Image.asset(
+            'assets/images/splash_screen.gif',
+            fit: BoxFit.cover,
           ),
         )
       : widget.child;
